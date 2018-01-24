@@ -102,21 +102,25 @@ export default class MentionsTextInput extends Component {
     this.stopTracking();
     this.setState({ textInputHeight: this.props.textInputMinHeight });
   }
+  
+  suggestionsPanel() {
+    <Animated.View style={[{ ...this.props.suggestionsPanelStyle }, { height: this.state.suggestionRowHeight }]}>
+      <FlatList
+        keyboardShouldPersistTaps={"always"}
+        horizontal={this.props.horizontal}
+        ListEmptyComponent={this.props.loadingComponent}
+        enableEmptySections={true}
+        data={this.props.suggestionsData}
+        keyExtractor={this.props.keyExtractor}
+        renderItem={(rowData) => { return this.props.renderSuggestionsRow(rowData, this.stopTracking.bind(this)) }}
+      />
+    </Animated.View>
+  }
 
   render() {
     return (
       <View>
-        <Animated.View style={[{ ...this.props.suggestionsPanelStyle }, { height: this.state.suggestionRowHeight }]}>
-          <FlatList
-            keyboardShouldPersistTaps={"always"}
-            horizontal={this.props.horizontal}
-            ListEmptyComponent={this.props.loadingComponent}
-            enableEmptySections={true}
-            data={this.props.suggestionsData}
-            keyExtractor={this.props.keyExtractor}
-            renderItem={(rowData) => { return this.props.renderSuggestionsRow(rowData, this.stopTracking.bind(this)) }}
-          />
-        </Animated.View>
+        {this.props.suggestionsPanelPosition === 'top' && this.suggestionsPanel()}
         <TextInput
           {...this.props}
           onContentSizeChange={(event) => {
@@ -131,6 +135,7 @@ export default class MentionsTextInput extends Component {
           style={[{ ...this.props.textInputStyle }, { height: Math.min(this.props.textInputMaxHeight, this.state.textInputHeight) }]}
           placeholder={this.props.placeholder ? this.props.placeholder : 'Write a comment...'}
         />
+        {this.props.suggestionsPanelPosition === 'bottom' && this.suggestionsPanel()}
       </View>
     )
   }
@@ -139,6 +144,7 @@ export default class MentionsTextInput extends Component {
 MentionsTextInput.propTypes = {
   textInputStyle: TextInput.propTypes.style,
   suggestionsPanelStyle: ViewPropTypes.style,
+  suggestionsPanelPosition: PropTypes.oneOf(['top', 'bottom']),
   loadingComponent: PropTypes.oneOfType([
     PropTypes.func,
     PropTypes.element,
@@ -170,6 +176,7 @@ MentionsTextInput.propTypes = {
 MentionsTextInput.defaultProps = {
   textInputStyle: { borderColor: '#ebebeb', borderWidth: 1, fontSize: 15 },
   suggestionsPanelStyle: { backgroundColor: 'rgba(100,100,100,0.1)' },
+  suggestionsPanelPosition: 'top',
   loadingComponent: () => <Text>Loading...</Text>,
   textInputMinHeight: 30,
   textInputMaxHeight: 80,
