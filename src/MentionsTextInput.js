@@ -104,17 +104,19 @@ export default class MentionsTextInput extends Component {
   }
   
   suggestionsPanel() {
-    <Animated.View style={[{ ...this.props.suggestionsPanelStyle }, { height: this.state.suggestionRowHeight }]}>
-      <FlatList
-        keyboardShouldPersistTaps={"always"}
-        horizontal={this.props.horizontal}
-        ListEmptyComponent={this.props.loadingComponent}
-        enableEmptySections={true}
-        data={this.props.suggestionsData}
-        keyExtractor={this.props.keyExtractor}
-        renderItem={(rowData) => { return this.props.renderSuggestionsRow(rowData, this.stopTracking.bind(this)) }}
-      />
-    </Animated.View>
+    return (
+      <Animated.View style={[{ ...this.props.suggestionsPanelStyle }, { height: this.state.suggestionRowHeight }]}>
+        <FlatList
+          keyboardShouldPersistTaps={"always"}
+          horizontal={this.props.horizontal}
+          ListEmptyComponent={this.props.loadingComponent}
+          enableEmptySections={true}
+          data={this.props.suggestionsData}
+          keyExtractor={this.props.keyExtractor}
+          renderItem={(rowData) => { return this.props.renderSuggestionsRow(rowData, this.stopTracking.bind(this)) }}
+        />
+      </Animated.View>
+    )
   }
 
   render() {
