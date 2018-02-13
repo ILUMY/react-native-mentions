@@ -121,7 +121,7 @@ export default class MentionsTextInput extends Component {
 
   render() {
     return (
-      <View>
+      <View style={{flex: 1}}>
         {this.props.suggestionsPanelPosition === 'top' && this.suggestionsPanel()}
         <TextInput
           {...this.props}
