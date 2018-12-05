@@ -7,13 +7,15 @@ import {
   FlatList,
   ViewPropTypes
 } from 'react-native';
+
 import PropTypes from 'prop-types';
+import {AutoGrowingTextInput} from 'react-native-autogrow-textinput';
+
 
 export default class MentionsTextInput extends Component {
   constructor() {
     super();
     this.state = {
-      textInputHeight: "",
       isTrackingStarted: false,
       suggestionRowHeight: new Animated.Value(0),
 
@@ -21,13 +23,7 @@ export default class MentionsTextInput extends Component {
     this.isTrackingStarted = false;
     this.previousChar = " ";
   }
-
-  componentWillMount() {
-    this.setState({
-      textInputHeight: this.props.textInputMinHeight
-    })
-  }
-
+	
   componentWillReceiveProps(nextProps) {
     if (!nextProps.value) {
       this.resetTextbox();
@@ -100,7 +96,6 @@ export default class MentionsTextInput extends Component {
   resetTextbox() {
     this.previousChar = " ";
     this.stopTracking();
-    this.setState({ textInputHeight: this.props.textInputMinHeight });
   }
   
   suggestionsPanel() {
@@ -123,12 +118,9 @@ export default class MentionsTextInput extends Component {
     return (
       <View style={{flex: 1}}>
         {this.props.suggestionsPanelPosition === 'top' && this.suggestionsPanel()}
-        <TextInput
+        <AutoGrowingTextInput
           {...this.props}
           onContentSizeChange={(event) => {
-            this.setState({
-              textInputHeight: this.props.textInputMinHeight >= event.nativeEvent.contentSize.height ? this.props.textInputMinHeight : event.nativeEvent.contentSize.height + 10,
-            });
             if (this.props.onContentSizeChange) {
 	            this.props.onContentSizeChange(event);
             }
@@ -137,8 +129,11 @@ export default class MentionsTextInput extends Component {
           onChangeText={this.onChangeText.bind(this)}
           multiline={true}
           value={this.props.value}
-          style={[{ ...this.props.textInputStyle }, { height: Math.min(this.props.textInputMaxHeight, this.state.textInputHeight) }]}
+          style={[{ ...this.props.textInputStyle }]}
           placeholder={this.props.placeholder ? this.props.placeholder : 'Write a comment...'}
+          minHeight={this.props.textInputMinHeight}
+          maxHeight={this.props.textInputMaxHeight}
+          enableScrollToCaret
         />
         {this.props.suggestionsPanelPosition === 'bottom' && this.suggestionsPanel()}
       </View>
