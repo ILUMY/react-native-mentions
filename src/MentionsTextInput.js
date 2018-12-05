@@ -149,7 +149,7 @@ export default class MentionsTextInput extends Component {
 MentionsTextInput.propTypes = {
   textInputStyle: TextInput.propTypes.style,
   suggestionsPanelStyle: ViewPropTypes.style,
-  suggestionsPanelPosition: PropTypes.oneOf(['top', 'bottom']),
+  suggestionsPanelPosition: PropTypes.oneOf(['top', 'bottom', 'inline']),
   loadingComponent: PropTypes.oneOfType([
     PropTypes.func,
     PropTypes.element,
