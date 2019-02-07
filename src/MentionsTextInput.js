@@ -119,7 +119,6 @@ export default class MentionsTextInput extends Component {
       <View style={{flex: 1}}>
         {this.props.suggestionsPanelPosition === 'top' && this.suggestionsPanel()}
         <AutoGrowingTextInput
-          {...this.props}
           onContentSizeChange={(event) => {
             if (this.props.onContentSizeChange) {
 	            this.props.onContentSizeChange(event);
@@ -133,6 +132,7 @@ export default class MentionsTextInput extends Component {
           placeholder={this.props.placeholder ? this.props.placeholder : 'Write a comment...'}
           minHeight={this.props.textInputMinHeight}
           maxHeight={this.props.textInputMaxHeight}
+	  autoFocus={this.props.autoFocus}
           enableScrollToCaret
         />
         {this.props.suggestionsPanelPosition === 'bottom' && this.suggestionsPanel()}
