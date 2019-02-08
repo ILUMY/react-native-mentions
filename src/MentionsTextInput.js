@@ -133,6 +133,7 @@ export default class MentionsTextInput extends Component {
           minHeight={this.props.textInputMinHeight}
           maxHeight={this.props.textInputMaxHeight}
 	  autoFocus={this.props.autoFocus}
+          editable={this.props.editable}
           enableScrollToCaret
         />
         {this.props.suggestionsPanelPosition === 'bottom' && this.suggestionsPanel()}
