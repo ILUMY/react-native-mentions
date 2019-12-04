@@ -86,7 +86,7 @@ export default class MentionsTextInput extends Component {
     const wordBoundry = (this.props.triggerLocation === 'new-word-only') ? this.previousChar.trim().length === 0 : true;
     if (lastChar === this.props.trigger && wordBoundry) {
       this.startTracking();
-    } else if (lastChar === ' ' && this.state.isTrackingStarted || val === "") {
+    } else if ((val.indexOf(this.props.trigger) === -1 && this.state.isTrackingStarted) || val === '') {
       this.stopTracking();
     }
     this.previousChar = lastChar;
