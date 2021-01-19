@@ -24,7 +24,7 @@ export default class MentionsTextInput extends Component {
     this.previousChar = " ";
   }
 	
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (!nextProps.value) {
       this.resetTextbox();
     } else if (this.isTrackingStarted && !nextProps.horizontal && nextProps.suggestionsData.length !== 0) {
@@ -54,6 +54,7 @@ export default class MentionsTextInput extends Component {
     Animated.timing(this.state.suggestionRowHeight, {
       toValue: height ? height : this.props.suggestionRowHeight,
       duration: 100,
+      useNativeDriver: false,
     }).start();
   }
 
@@ -61,6 +62,7 @@ export default class MentionsTextInput extends Component {
     Animated.timing(this.state.suggestionRowHeight, {
       toValue: 0,
       duration: 100,
+      useNativeDriver: false,
     }).start();
   }
 
@@ -100,7 +102,7 @@ export default class MentionsTextInput extends Component {
   
   suggestionsPanel() {
     return (
-      <Animated.View style={[{ ...this.props.suggestionsPanelStyle }, { height: this.state.suggestionRowHeight }]}>
+      <Animated.View useNativeDriver={false} style={[{ ...this.props.suggestionsPanelStyle }, { height: this.state.suggestionRowHeight }]}>
         <FlatList
           keyboardShouldPersistTaps={"always"}
           horizontal={this.props.horizontal}
@@ -132,7 +134,7 @@ export default class MentionsTextInput extends Component {
           placeholder={this.props.placeholder ? this.props.placeholder : 'Write a comment...'}
           minHeight={this.props.textInputMinHeight}
           maxHeight={this.props.textInputMaxHeight}
-	  autoFocus={this.props.autoFocus}
+	        autoFocus={this.props.autoFocus}
           editable={this.props.editable}
           enableScrollToCaret
         />
